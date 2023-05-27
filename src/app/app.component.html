@@ -1,0 +1,47 @@
+<div class="section">
+
+<button (click)="openNewToDoForm()" type="button" class="change">Create new ToDo</button>
+
+<input type="text" placeholder="filter" #filterValue (keyup)="filterValue.value" class="search">
+<button type="button" (click)="filterImportant()"  class="filter">Filter important toDos</button>
+<button type="button" (click)="filterFinished()" class="filter">Filter finished toDos</button>
+
+
+<div *ngFor="let item of toDoList | filterPipe:filterValue.value | filterAsImportantPipe: important:finished, let i=index" class="todo"
+    #el>
+    <div>
+      <h4 class="name">{{item.name}}</h4>
+      <i class="description">{{item.description}}</i>
+    </div>
+
+    <div>
+      <div>
+        <button (click)="showEditToDo(item)"   type="button" class="change">Edit ToDo</button>
+        <button (click)="deleteItem(item.id)" type="button"  class="change">Remove ToDo</button>
+      </div>
+
+      <div>
+        <button class="important" type="button"  (click)="markAsImportant(el, item)"> Important ToDo</button>
+        <button class="finished" type="button"  (click)="markAsFinished(el,item)">Finished</button>
+      </div>
+    </div>
+
+</div>
+
+<ng-container *ngIf="bool">
+  <form  [formGroup]="form" class="admin-form">
+    <button class="closeButton"  type="button" (click)="closeWrapper()">X</button>
+    <div>
+      <label for="name" class="labelName">Name</label>
+      <input type="text" id="name" name="name"  class="inputName" formControlName="name">
+    </div>
+    <div>
+      <label for="description" class="labelName">Description</label>
+      <input type="text" id="description" name="description" class="inputName" formControlName="description">
+    </div>
+    <button class="save" type="button" (click)="saveChange()">Save</button>
+    <button class="reset" type="button" (click)="reset()">Reset</button>
+  </form>
+</ng-container>
+
+</div>
